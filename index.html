@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Encuesta de bienestar</title>
+<meta name="description" content="Encuesta voluntaria sobre cómo las personas mayores y sus familias se organizan para pedir ayuda y cuidar su salud.">
+<meta name="theme-color" content="#F5F4FB">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Encuesta de bienestar con Coddy">
+<meta property="og:description" content="Cuéntanos cómo se organizan las personas mayores y sus familias para pedir ayuda y cuidar su salud. Participar es voluntario.">
+<meta property="og:image" content="coddy-compartir.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="coddy-icono.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Nunito:wght@800;900&display=swap">
+<style>
+:root{
+  --bg:#F5F4FB; --ink:#24204F; --ink2:#2F2B5C; --muted:#3B3766;
+  --primary:#5B4FD6; --primary-dark:#4338B8; --lav:#E3E0FC; --lav2:#CFCAF8;
+  --line:#8F89C9; --sel:#EEECFE; --track:#DCD8F6; --disabled:#D6D2F3;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:21px;line-height:1.45;overflow-x:hidden}
+.shell{min-height:100vh;min-height:100dvh;display:flex;justify-content:center;padding:14px 16px 0}
+.col{width:100%;max-width:620px;min-width:0;display:flex;flex-direction:column;gap:16px;min-height:calc(100vh - 14px);min-height:calc(100dvh - 14px)}
+.screen{display:flex;flex-direction:column;gap:16px;min-width:0}
+.enter{animation:enter .3s ease-out both}
+@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.bob{animation:bob 4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.testbar{margin:0;padding:8px 14px;border-radius:14px;border:2px solid #B07415;background:#FFF1D6;color:#4A3000;font-size:18px;font-weight:700}
+.progress{display:flex;flex-direction:column;gap:6px}
+.progress p{margin:0;font-size:18px;font-weight:700;color:var(--muted)}
+.track{height:12px;border-radius:6px;background:var(--track);overflow:hidden}
+.fill{height:12px;border-radius:6px;background:var(--primary);transition:width .4s ease}
+.coddy-row{display:flex;align-items:center;gap:12px}
+.coddy-row svg{flex-shrink:0;width:62px;height:auto}
+.bubble{margin:0;background:#fff;border-radius:20px 20px 20px 6px;padding:10px 14px;font-size:19px;line-height:1.35;box-shadow:0 2px 0 var(--lav)}
+.title{margin:0;font-family:'Nunito',system-ui,sans-serif;font-weight:900;font-size:clamp(25px,6.6vw,32px);line-height:1.22;outline:none}
+.help{margin:0;display:flex;align-items:flex-start;gap:10px;font-size:19px;line-height:1.4;color:var(--muted)}
+.help svg{flex-shrink:0;margin-top:2px}
+.opts{border:0;margin:0;padding:0;min-width:0;display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:14px;width:100%;min-height:62px;padding:12px 16px;border-radius:18px;border:3px solid var(--line);background:#fff;text-align:left;font:inherit;font-size:21px;font-weight:700;line-height:1.3;color:var(--ink);cursor:pointer;transition:background .2s ease,border-color .2s ease}
+.opt[aria-pressed="true"]{background:var(--sel);border-color:var(--primary)}
+.ind{flex-shrink:0;width:28px;height:28px;border:3px solid var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff}
+.multi .ind{border-radius:7px}
+.multi .opt[aria-pressed="true"] .ind{background:var(--primary)}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--primary)}
+.other{display:flex;flex-direction:column;gap:6px;padding:2px 2px 4px 46px}
+.other label{font-size:19px;font-weight:700;color:var(--muted)}
+.field{width:100%;border-radius:16px;border:3px solid var(--line);background:#fff;font:inherit;font-size:21px;color:var(--ink);padding:12px 14px}
+input.field{height:58px}
+textarea.field{min-height:170px;line-height:1.45;resize:vertical}
+.field::placeholder{color:#6B6790}
+.card{display:flex;flex-direction:column;gap:12px;background:#fff;border-radius:24px;padding:22px 20px;box-shadow:0 2px 0 var(--lav)}
+.card p{margin:0;font-size:21px;line-height:1.5;color:var(--ink2)}
+.hero{height:170px;border-radius:32px;background:var(--lav);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
+.hero svg{width:150px;height:auto;margin-bottom:-12px;position:relative}
+.circle{position:absolute;border-radius:50%;background:var(--lav2)}
+.lead{margin:0;font-size:19px;font-weight:700;color:var(--primary-dark)}
+.body{margin:0;font-size:21px;line-height:1.5;color:var(--ink2)}
+.big{margin:0;font-family:'Nunito',system-ui,sans-serif;font-weight:900;font-size:34px;line-height:1.15;outline:none}
+.center{align-items:center;text-align:center}
+.center svg.coddy{width:130px;height:auto}
+.note{display:flex;align-items:flex-start;gap:10px;width:100%;padding:14px 16px;border-radius:18px;border:3px dashed var(--line);background:#fff;text-align:left;font-size:19px;line-height:1.4;color:var(--ink2)}
+.alert{display:flex;align-items:flex-start;gap:10px;padding:14px 16px;border-radius:18px;border:3px solid #B3261E;background:#FDECEA;color:#5C1410;font-size:19px;line-height:1.4;font-weight:700}
+.alert svg,.note svg{flex-shrink:0}
+.status{margin:0;font-size:19px;font-weight:700;color:var(--muted);text-align:center}
+.spacer{flex-grow:1}
+.navbar{position:sticky;bottom:0;z-index:5;display:flex;flex-direction:column;gap:6px;padding:12px 0 calc(14px + env(safe-area-inset-bottom));background:var(--bg);box-shadow:0 -12px 12px -12px rgba(36,32,79,.25)}
+.btnrow{display:flex;gap:10px}
+.btn{min-height:64px;border-radius:20px;font:inherit;font-size:21px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 12px;cursor:pointer;text-align:center}
+.btn-back{flex:1 1 0;border:3px solid var(--primary);background:#fff;color:var(--primary-dark)}
+.btn-next{flex:1.5 1 0;border:none;background:var(--primary);color:#fff}
+.btn-next:disabled,.btn-back:disabled{background:var(--disabled);color:var(--muted);border-color:var(--disabled);cursor:default}
+.btn-wide{width:100%}
+.btn-link{min-height:50px;border:none;background:transparent;color:var(--primary-dark);font:inherit;font-size:20px;font-weight:700;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.hint{margin:0;font-size:18px;color:var(--muted);text-align:center}
+button:focus-visible,textarea:focus-visible,input:focus-visible,a:focus-visible{outline:4px solid #E8912D;outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:350px){.btn-back svg{display:none}.btn{font-size:20px}}
+@media (min-width:720px){
+  .shell{padding:44px 32px 0}
+  .col{gap:22px;min-height:calc(100dvh - 44px)}
+  .screen{gap:20px}
+  .coddy-row svg{width:84px}
+  .hero{height:250px}
+  .hero svg{width:210px}
+  .center svg.coddy{width:180px}
+  .navbar{box-shadow:none;padding-bottom:40px}
+}
+@media (prefers-reduced-motion:reduce){.enter,.bob{animation:none}.fill,.opt{transition:none}}
+</style>
+</head>
+<body>
+<div class="shell"><div class="col" id="app" aria-live="off"></div></div>
+<script>
+(function () {
+  'use strict';
+
+  // ===== ÚNICO DATO QUE DEBES CAMBIAR =====
+  // Pega entre las comillas la URL de la NUEVA aplicación web de Apps Script (termina en /exec).
+  // No es una contraseña: esa dirección solo permite agregar respuestas, no leer la hoja.
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxh3u3GrEzZr5HWJ--Malgtt40fxdpH0evE6vP-Tp7FJDKUz-y0b83sY6rv_DpCBFhbPA/exec';
+  // =========================================
+
+  var VERSION = 'v1';
+  var PNR = { v: 'pnr', label: 'Prefiero no responder.', excl: true };
+  var SI_NO = [{ v: 'si', label: 'Sí.' }, { v: 'no', label: 'No.' }, PNR];
+
+  // Cada pregunta tiene un código que se convierte en una columna de la hoja.
+  var Q = {
+    role: { code: 'P1', kind: 'single', title: '¿Cuál de estas opciones te describe mejor?', options: [
+      { v: 'mayor', label: 'Soy una persona adulta mayor.' },
+      { v: 'familiar', label: 'Soy familiar o persona cercana a un adulto mayor.' },
+      { v: 'cuidador', label: 'Soy cuidador o cuidadora de un adulto mayor.' },
+      { v: 'none', label: 'Ninguna de las anteriores.' }] },
+    end_none: { kind: 'none' },
+
+    s_vive: { code: 'A1', kind: 'single', title: '¿Con quién vives actualmente?', options: [
+      { v: 'solo', label: 'Vivo solo o sola.' }, { v: 'pareja', label: 'Vivo con mi pareja.' },
+      { v: 'familia', label: 'Vivo con familiares.' }, { v: 'otra', label: 'Vivo con otra persona.' }, PNR] },
+    s_solo: { code: 'A2', kind: 'single', title: 'En un día normal, ¿qué tan seguido estás solo o sola en casa?', options: [
+      { v: 'casi_todo', label: 'Casi todo el día.' }, { v: 'algunas', label: 'Algunas horas al día.' },
+      { v: 'rara', label: 'Rara vez.' }, { v: 'casi_nunca', label: 'Casi nunca.' }, PNR] },
+    s_cel: { code: 'A3', kind: 'single', title: '¿Tienes un celular que puedas usar cuando lo necesitas?', options: [
+      { v: 'propio', label: 'Sí, tengo uno propio.' }, { v: 'comparte', label: 'Sí, comparto uno.' },
+      { v: 'no', label: 'No.' }, PNR] },
+    s_uso: { code: 'A4', kind: 'multi', title: '¿Qué sueles hacer con tu celular?', options: [
+      { v: 'llamar', label: 'Llamar por teléfono.' }, { v: 'whatsapp', label: 'Enviar o recibir mensajes por WhatsApp.' },
+      { v: 'apps', label: 'Usar otras aplicaciones.' }, { v: 'ayuda', label: 'Pedir ayuda a alguien para usarlo.' },
+      { v: 'otra', label: 'Otra cosa.', other: '¿Qué otra cosa? (opcional)' },
+      { v: 'casi_no', label: 'Casi no lo uso.', excl: true }, PNR] },
+    s_cerca: { code: 'A5', kind: 'single', title: 'Cuando estás en casa, ¿sueles tener tu celular cerca de ti?', options: [
+      { v: 'siempre', label: 'Casi siempre.' }, { v: 'aveces', label: 'Algunas veces.' },
+      { v: 'casi_nunca', label: 'Casi nunca.' }, PNR] },
+    s_accidente: { code: 'A6', kind: 'single', title: '¿Alguna vez te has sentido mal o has tenido un accidente cuando estabas solo o sola?', options: SI_NO },
+    s_ayuda: { code: 'A6a', kind: 'open', title: '¿Qué hiciste para pedir ayuda?' },
+    s_dificultad: { code: 'A6b', kind: 'open', title: 'En ese momento, ¿hubo algo que se te dificultara?' },
+    s_urgente: { code: 'A6c', kind: 'open', title: 'Si necesitaras ayuda urgente mientras estás solo o sola, ¿qué harías primero?' },
+    s_contacto: { code: 'A7', kind: 'single', title: '¿Hay alguien con quien puedas comunicarte si necesitas ayuda?', options: [
+      { v: 'si', label: 'Sí, una o más personas.' }, { v: 'nose', label: 'No estoy seguro o segura.' },
+      { v: 'no', label: 'No.' }, PNR] },
+    s_quienes: { code: 'A7a', kind: 'multi', title: 'Sin escribir nombres, ¿quiénes serían?', options: [
+      { v: 'familiar', label: 'Un familiar.' }, { v: 'vecino', label: 'Un vecino o vecina.' },
+      { v: 'amistad', label: 'Una amistad.' }, { v: 'cuidador', label: 'Un cuidador o cuidadora.' },
+      { v: 'otra', label: 'Otra persona.', other: '¿Quién? Sin escribir su nombre (opcional)' }, PNR] },
+    s_meds: { code: 'A8', kind: 'single', title: '¿Tomas medicamentos que debas recordar en ciertos horarios?', options: SI_NO },
+    s_recordar: { code: 'A8a', kind: 'multi', title: '¿Cómo recuerdas cuándo tomarlos?', options: [
+      { v: 'solo', label: 'Me acuerdo sin ayuda.' }, { v: 'alarma', label: 'Uso una alarma en el celular.' },
+      { v: 'alguien', label: 'Alguien me lo recuerda.' }, { v: 'notas', label: 'Uso notas, un calendario o un pastillero.' },
+      { v: 'otro', label: 'Otro.', other: '¿Cuál? (opcional)' }, PNR] },
+    s_acompanado: { code: 'A9', kind: 'open', title: '¿Qué es lo que más te ayudaría a sentirte acompañado o acompañada cuando estás solo o sola?' },
+
+    f_intro: { kind: 'info', title: 'Antes de empezar', body: 'Para responder, piensa en una sola persona adulta mayor a la que acompañas o cuidas.' },
+    f_rel: { code: 'F1', kind: 'single', title: '¿Cuál es tu relación con esa persona?', options: [
+      { v: 'hijo', label: 'Soy su hijo o hija.' }, { v: 'familiar', label: 'Soy otro familiar.' },
+      { v: 'amistad', label: 'Soy una amistad o persona cercana.' }, { v: 'cuidador', label: 'Soy cuidador o cuidadora.' },
+      { v: 'otra', label: 'Otra.', other: '¿Cuál? (opcional)' }, PNR] },
+    f_vive: { code: 'F2', kind: 'single', title: '¿Con quién vive esa persona?', options: [
+      { v: 'sola', label: 'Vive sola.' }, { v: 'pareja', label: 'Vive con su pareja.' },
+      { v: 'familia', label: 'Vive con familiares.' }, { v: 'otra', label: 'Vive con otra persona.' },
+      { v: 'nose', label: 'No estoy seguro o segura.' }, PNR] },
+    f_contacto: { code: 'F3', kind: 'single', title: '¿Cada cuánto estás en contacto con esa persona?', options: [
+      { v: 'varias_dia', label: 'Varias veces al día.' }, { v: 'una_dia', label: 'Una vez al día.' },
+      { v: 'semana', label: 'Algunas veces a la semana.' }, { v: 'menos', label: 'Con menos frecuencia.' },
+      { v: 'otra', label: 'Otra frecuencia.', other: '¿Cuál? (opcional)' }, PNR] },
+    f_organizan: { code: 'F4', kind: 'open', title: '¿Cómo se organizan actualmente para saber si está bien o si necesita algo?' },
+    f_urgente: { code: 'F5', kind: 'single', title: '¿Alguna vez esa persona ha necesitado ayuda urgente mientras estaba sola?', options: [
+      { v: 'si', label: 'Sí.' }, { v: 'no', label: 'No.' }, { v: 'nose', label: 'No sé.' }, PNR] },
+    f_entero: { code: 'F5a', kind: 'open', title: '¿Cómo te enteraste y qué hiciste?' },
+    f_complicado: { code: 'F5b', kind: 'open', title: '¿Qué fue lo más complicado de esa situación?' },
+    f_emergencia: { code: 'F5c', kind: 'open', title: 'Si ocurriera una emergencia mientras está sola, ¿cómo crees que te enterarías?' },
+    f_alguien: { code: 'F6', kind: 'single', title: 'Si necesitaras ir a ayudarle y tú no pudieras, ¿hay alguien más que podría hacerlo?', options: [
+      { v: 'si', label: 'Sí.' }, { v: 'no', label: 'No.' }, { v: 'nose', label: 'No estoy seguro o segura.' }, PNR] },
+    f_meds: { code: 'F7', kind: 'single', title: '¿Esa persona necesita apoyo para recordar sus medicamentos?', options: [
+      { v: 'si', label: 'Sí.' }, { v: 'aveces', label: 'A veces.' }, { v: 'no', label: 'No.' },
+      { v: 'nose', label: 'No lo sé.' }, PNR] },
+    f_meds_org: { code: 'F7a', kind: 'open', title: '¿Cómo se organizan actualmente para recordarlos?' },
+    f_ambulancia: { code: 'F8', kind: 'open', title: 'Si esa persona fuera trasladada en una ambulancia, ¿cómo averiguarías a qué hospital la llevaron?' },
+    f_preocupa: { code: 'F9', kind: 'open', title: '¿Qué es lo que más te preocupa cuando esa persona está sola?' },
+
+    idea: { kind: 'info', title: 'Una idea que estamos explorando', body: 'Estamos explorando una idea: una herramienta sencilla en el celular que facilite pedir ayuda y avisar a personas de confianza. También podría incluir recordatorios de medicamentos.' },
+    o_util: { code: 'C1', kind: 'open', title: '¿Qué te parecería útil de una herramienta así?' },
+    o_dudas: { code: 'C2', kind: 'open', title: '¿Qué dudas o dificultades crees que tendría para ti o tu familia?' },
+    o_mas: { code: 'C3', kind: 'open', title: '¿Hay algo más que te gustaría contarnos?' },
+    send: { kind: 'send' },
+    thanks: { kind: 'thanks' }
+  };
+
+  var state = { cur: 'welcome', ans: {}, id: null, send: 'idle', prueba: false, lastShown: null };
+
+  function sel(ans, id) { return (ans[id] && ans[id].sel) || []; }
+  function has(ans, id, vals) { return sel(ans, id).some(function (v) { return vals.indexOf(v) !== -1; }); }
+
+  // Recorrido según las respuestas actuales: se recalcula cada vez que algo cambia.
+  function path(ans) {
+    var p = ['welcome', 'role'];
+    var role = sel(ans, 'role')[0];
+    if (role === 'none') { p.push('end_none'); return p; }
+    if (role === 'familiar' || role === 'cuidador') {
+      p.push('f_intro', 'f_rel', 'f_vive', 'f_contacto', 'f_organizan', 'f_urgente');
+      if (has(ans, 'f_urgente', ['si'])) p.push('f_entero', 'f_complicado');
+      else if (has(ans, 'f_urgente', ['no', 'nose', 'pnr'])) p.push('f_emergencia');
+      p.push('f_alguien', 'f_meds');
+      if (has(ans, 'f_meds', ['si', 'aveces'])) p.push('f_meds_org');
+      p.push('f_ambulancia', 'f_preocupa');
+    } else {
+      p.push('s_vive', 's_solo', 's_cel');
+      if (has(ans, 's_cel', ['propio', 'comparte'])) p.push('s_uso', 's_cerca');
+      p.push('s_accidente');
+      if (has(ans, 's_accidente', ['si'])) p.push('s_ayuda', 's_dificultad');
+      else if (has(ans, 's_accidente', ['no', 'pnr'])) p.push('s_urgente');
+      p.push('s_contacto');
+      if (has(ans, 's_contacto', ['si'])) p.push('s_quienes');
+      p.push('s_meds');
+      if (has(ans, 's_meds', ['si'])) p.push('s_recordar');
+      p.push('s_acompanado');
+    }
+    p.push('idea', 'o_util', 'o_dudas', 'o_mas', 'send', 'thanks');
+    return p;
+  }
+
+  function clean(label) { return String(label).replace(/\.$/, ''); }
+
+  // Solo se incluyen las preguntas del recorrido final; lo demás queda como "No aplica".
+  function buildPayload(ans) {
+    var p = path(ans);
+    var r = {};
+    var role = sel(ans, 'role')[0];
+    r.recorrido = role === 'mayor' ? 'Adulto mayor' : (role === 'familiar' || role === 'cuidador') ? 'Familiar o cuidador' : '';
+    Object.keys(Q).forEach(function (id) {
+      var q = Q[id];
+      if (!q.code) return;
+      var shown = p.indexOf(id) !== -1;
+      var a = ans[id] || { sel: [], other: '', text: '' };
+      var otherOpt = (q.options || []).filter(function (o) { return o.other; })[0];
+      if (!shown) {
+        r[q.code] = 'No aplica';
+        if (otherOpt) r[q.code + '_otro'] = 'No aplica';
+        return;
+      }
+      if (q.kind === 'open') {
+        var t = (a.text || '').trim();
+        r[q.code] = t ? t : 'Omitida';
+      } else {
+        r[q.code] = q.options.filter(function (o) { return (a.sel || []).indexOf(o.v) !== -1; })
+          .map(function (o) { return clean(o.label); }).join('; ');
+        if (otherOpt) {
+          if ((a.sel || []).indexOf(otherOpt.v) !== -1) {
+            var ot = (a.other || '').trim();
+            r[q.code + '_otro'] = ot ? ot : 'Sin especificar';
+          } else {
+            r[q.code + '_otro'] = 'No aplica';
+          }
+        }
+      }
+    });
+    return { id: state.id, version: VERSION, prueba: state.prueba, respuestas: r };
+  }
+
+  function newId() {
+    try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+    var s = Date.now().toString(36);
+    for (var i = 0; i < 4; i++) s += '-' + Math.random().toString(36).slice(2, 10);
+    return s;
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function coddy(pose, cls) {
+    var armsDown = '<ellipse cx="30" cy="140" rx="14" ry="22" transform="rotate(25 30 140)" fill="#86D2A1"/><ellipse cx="170" cy="140" rx="14" ry="22" transform="rotate(-25 170 140)" fill="#86D2A1"/>';
+    var armsUp = '<ellipse cx="34" cy="112" rx="14" ry="22" transform="rotate(150 34 112)" fill="#86D2A1"/><ellipse cx="166" cy="112" rx="14" ry="22" transform="rotate(-150 166 112)" fill="#86D2A1"/>';
+    var eyesOpen = '<ellipse cx="76" cy="114" rx="12" ry="15" fill="#24204F"/><ellipse cx="124" cy="114" rx="12" ry="15" fill="#24204F"/><circle cx="80" cy="108" r="4.5" fill="#FFF"/><circle cx="128" cy="108" r="4.5" fill="#FFF"/>';
+    var eyesCalm = '<path d="M64 116 Q76 104 88 116" stroke="#24204F" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M112 116 Q124 104 136 116" stroke="#24204F" stroke-width="5" fill="none" stroke-linecap="round"/>';
+    var smile = '<path d="M90 134 Q100 145 110 134" stroke="#24204F" stroke-width="4" fill="none" stroke-linecap="round"/>';
+    var open = '<path d="M88 132 Q100 150 112 132Z" fill="#24204F"/>';
+    return '<svg class="' + (cls || '') + '" viewBox="0 -10 200 230" aria-hidden="true" focusable="false">' +
+      '<ellipse cx="100" cy="208" rx="58" ry="8" fill="#24204F" opacity="0.10"/>' +
+      '<path d="M100 46 C100 34 101 26 104 18" stroke="#3E9A63" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+      '<path d="M103 22 C88 6 70 6 62 12 C70 26 88 30 103 22Z" fill="#5DB97F"/>' +
+      '<path d="M104 20 C114 2 132 -2 142 4 C136 20 120 26 104 20Z" fill="#6FC78E"/>' +
+      '<rect x="68" y="180" width="24" height="28" rx="12" fill="#6CC08A"/><rect x="108" y="180" width="24" height="28" rx="12" fill="#6CC08A"/>' +
+      (pose === 'cheer' ? armsUp : armsDown) +
+      '<path d="M100 42 C146 42 174 88 174 134 C174 176 142 196 100 196 C58 196 26 176 26 134 C26 88 54 42 100 42Z" fill="#9BDDB0"/>' +
+      '<ellipse cx="100" cy="160" rx="44" ry="28" fill="#C4ECCF"/>' +
+      (pose === 'calm' ? eyesCalm : eyesOpen) +
+      '<ellipse cx="56" cy="136" rx="11" ry="7" fill="#F5A3B5" opacity="0.85"/><ellipse cx="144" cy="136" rx="11" ry="7" fill="#F5A3B5" opacity="0.85"/>' +
+      (pose === 'cheer' ? open : smile) + '</svg>';
+  }
+
+  var ICON_BACK = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>';
+  var ICON_NEXT = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>';
+  var ICON_INFO = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.5v.5"/></svg>';
+  var ICON_MULTI = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M7.5 12l3 3 6-6"/></svg>';
+  var ICON_CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>';
+
+  function bubbleFor(cur, q, idx, frac) {
+    if (q.kind === 'open') return 'Escribe solo lo que quieras contar. También puedes omitirla.';
+    if (q.kind === 'info') return cur === 'idea' ? 'Me interesa mucho saber qué opinas.' : 'Gracias por estar aquí.';
+    if (cur === 'role') return 'Empecemos por conocerte un poco.';
+    if (frac >= 0.8) return '¡Ya casi terminamos!';
+    if (q.kind === 'multi') return 'Marca todas las que apliquen.';
+    return ['Tómate tu tiempo, no hay prisa.', 'Puedes volver y cambiar tus respuestas.', '¡Vas muy bien!'][idx % 3];
+  }
+
+  function render() {
+    var app = document.getElementById('app');
+    var p = path(state.ans);
+    var idx = p.indexOf(state.cur);
+    if (idx === -1) { idx = 0; state.cur = 'welcome'; }
+    var cur = state.cur;
+    var q = Q[cur] || { kind: 'welcome' };
+    var a = state.ans[cur] || { sel: [], other: '', text: '' };
+    var isChoice = q.kind === 'single' || q.kind === 'multi';
+    var lastQ = p.indexOf('send');
+    var frac = lastQ > 0 ? Math.min(1, idx / lastQ) : 0;
+    var pct = Math.max(4, Math.round(frac * 100));
+    var changed = state.lastShown !== cur;
+    var h = '';
+
+    if (state.prueba) h += '<p class="testbar">Modo de prueba: usa solo datos inventados.</p>';
+
+    var showProgress = ['welcome', 'thanks', 'none'].indexOf(q.kind) === -1;
+    if (showProgress) {
+      h += '<div class="progress"><p id="avance-txt">Tu avance</p>' +
+        '<div class="track" role="progressbar" aria-labelledby="avance-txt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '">' +
+        '<div class="fill" style="width:' + pct + '%"></div></div></div>';
+    }
+
+    h += '<div class="screen' + (changed ? ' enter' : '') + '">';
+    var nav = '';
+
+    if (q.kind === 'welcome') {
+      h += '<div class="hero"><span class="circle" style="top:30px;left:28px;width:46px;height:46px"></span>' +
+        '<span class="circle" style="top:70px;right:34px;width:24px;height:24px"></span>' +
+        '<span class="bob" style="display:flex">' + coddy('cheer') + '</span></div>' +
+        '<p class="lead">Soy Coddy y te acompañaré en la encuesta</p>' +
+        '<h1 class="big" tabindex="-1">¡Hola! 👋</h1>' +
+        '<p class="body">Estamos buscando entender cómo las personas mayores y sus familias se organizan para pedir ayuda y cuidar su salud.</p>' +
+        '<p class="body">Tus respuestas nos ayudarán a conocer sus experiencias. Participar es voluntario y puedes dejar de contestar cuando quieras.</p>';
+      nav = '<button type="button" class="btn btn-next btn-wide" data-act="start">Comenzar ' + ICON_NEXT + '</button>';
+    }
+
+    if (isChoice || q.kind === 'open' || q.kind === 'info') {
+      h += '<div class="coddy-row"><span class="bob" style="display:flex">' + coddy(q.kind === 'open' ? 'calm' : 'happy') + '</span>' +
+        '<p class="bubble">' + esc(bubbleFor(cur, q, idx, frac)) + '</p></div>';
+    }
+
+    if (isChoice) {
+      var multi = q.kind === 'multi';
+      h += '<h1 class="title" id="titulo" tabindex="-1">' + esc(q.title) + '</h1>';
+      if (multi) h += '<p class="help">' + ICON_MULTI + '<span><strong>Puedes elegir varias opciones.</strong></span></p>';
+      h += '<fieldset class="opts' + (multi ? ' multi' : '') + '" aria-labelledby="titulo">';
+      q.options.forEach(function (o, i) {
+        var on = (a.sel || []).indexOf(o.v) !== -1;
+        h += '<div><button type="button" class="opt" aria-pressed="' + on + '" data-act="pick" data-v="' + esc(o.v) + '">' +
+          '<span class="ind">' + (on ? (multi ? ICON_CHECK : '<span class="dot"></span>') : '') + '</span>' +
+          '<span>' + esc(o.label) + '</span></button>';
+        if (o.other && on) {
+          var oid = 'otro-' + cur;
+          h += '<div class="other"><label for="' + oid + '">' + esc(o.other) + '</label>' +
+            '<input class="field" id="' + oid + '" type="text" maxlength="300" autocomplete="off" data-input="other" value="' + esc(a.other || '') + '" placeholder="Escribe aquí"></div>';
+        }
+        h += '</div>';
+      });
+      h += '</fieldset>';
+      var can = (a.sel || []).length > 0;
+      nav = (can ? '' : '<p class="hint">Elige una opción para continuar.</p>') +
+        '<div class="btnrow"><button type="button" class="btn btn-back" data-act="back">' + ICON_BACK + 'Volver</button>' +
+        '<button type="button" class="btn btn-next" data-act="next"' + (can ? '' : ' disabled') + '>Continuar ' + ICON_NEXT + '</button></div>';
+    }
+
+    if (q.kind === 'open') {
+      h += '<label class="title" for="respuesta" id="titulo" tabindex="-1">' + esc(q.title) + '</label>' +
+        '<p class="help">' + ICON_INFO + '<span>Esta pregunta es opcional. No es necesario escribir nombres ni datos que identifiquen a alguien.</span></p>' +
+        '<textarea class="field" id="respuesta" rows="5" maxlength="2000" data-input="text" placeholder="Escribe aquí tu respuesta…">' + esc(a.text || '') + '</textarea>';
+      nav = '<div class="btnrow"><button type="button" class="btn btn-back" data-act="back">' + ICON_BACK + 'Volver</button>' +
+        '<button type="button" class="btn btn-next" data-act="next">Continuar ' + ICON_NEXT + '</button></div>' +
+        '<button type="button" class="btn-link" data-act="skip">Omitir esta pregunta</button>';
+    }
+
+    if (q.kind === 'info') {
+      h += '<div class="card"><h1 class="title" tabindex="-1">' + esc(q.title) + '</h1><p>' + esc(q.body) + '</p></div>';
+      nav = '<div class="btnrow"><button type="button" class="btn btn-back" data-act="back">' + ICON_BACK + 'Volver</button>' +
+        '<button type="button" class="btn btn-next" data-act="next">Continuar ' + ICON_NEXT + '</button></div>';
+    }
+
+    if (q.kind === 'send') {
+      var sending = state.send === 'sending';
+      h += '<div class="coddy-row"><span class="bob" style="display:flex">' + coddy('happy') + '</span>' +
+        '<p class="bubble">¡Terminaste! Solo falta un paso.</p></div>' +
+        '<h1 class="title" tabindex="-1">¿Listo para enviar tus respuestas?</h1>' +
+        '<p class="body">Cuando toques «Enviar respuestas», tus respuestas se registrarán para esta investigación. Si quieres revisarlas o cambiarlas, toca «Volver».</p>';
+      nav = '<div role="status" aria-live="polite">' +
+        (sending ? '<p class="status">Enviando tus respuestas… espera un momento.</p>' : '') +
+        (state.send === 'error' ? '<div class="alert">' + ICON_INFO + '<span>No pudimos enviar tus respuestas. Revisa tu conexión a internet y vuelve a intentarlo. Tus respuestas no se han borrado.</span></div>' : '') +
+        '</div>' +
+        '<div class="btnrow"><button type="button" class="btn btn-back" data-act="back"' + (sending ? ' disabled' : '') + '>' + ICON_BACK + 'Volver</button>' +
+        '<button type="button" class="btn btn-next" data-act="submit"' + (sending ? ' disabled aria-disabled="true"' : '') + '>' +
+        (sending ? 'Enviando…' : state.send === 'error' ? 'Intentar de nuevo' : 'Enviar respuestas') + '</button></div>';
+    }
+
+    if (q.kind === 'thanks') {
+      h += '<div class="screen center"><span class="bob" style="display:flex">' + coddy('cheer', 'coddy') + '</span>' +
+        '<h1 class="big" tabindex="-1">¡Muchas gracias por compartir tu experiencia! 💚</h1>' +
+        '<p class="body">Tus respuestas se registraron correctamente. Ya puedes cerrar esta página.</p>' +
+        (state.prueba ? '<div class="note">' + ICON_INFO + '<span>Este fue un envío de prueba.</span></div>' : '') + '</div>';
+    }
+
+    if (q.kind === 'none') {
+      h += '<div class="screen center"><span class="bob" style="display:flex">' + coddy('cheer', 'coddy') + '</span>' +
+        '<h1 class="big" tabindex="-1">¡Muchas gracias por tu interés! 💚</h1>' +
+        '<p class="body">Esta encuesta está pensada para personas adultas mayores y para sus familiares o personas cuidadoras, así que aquí termina tu participación.</p>' +
+        '<div class="note">' + ICON_INFO + '<span>No se registró ninguna respuesta.</span></div></div>';
+      nav = '<button type="button" class="btn btn-back btn-wide" data-act="back">' + ICON_BACK + 'Volver</button>';
+    }
+
+    h += '</div><div class="spacer"></div>';
+    if (nav) h += '<div class="navbar">' + nav + '</div>';
+
+    app.innerHTML = h;
+    var first = state.lastShown === null;
+    state.lastShown = cur;
+    if (changed && !first) {
+      try { window.scrollTo(0, 0); } catch (e) {}
+      var t = app.querySelector('[tabindex="-1"]');
+      if (t) { try { t.focus({ preventScroll: true }); } catch (e) {} }
+    }
+  }
+
+  function go(id) { state.cur = id; render(); }
+
+  function setAns(id, patch) {
+    var prev = state.ans[id] || { sel: [], other: '', text: '' };
+    state.ans[id] = { sel: patch.sel || prev.sel, other: patch.other !== undefined ? patch.other : prev.other, text: patch.text !== undefined ? patch.text : prev.text };
+  }
+
+  function pick(v) {
+    var q = Q[state.cur];
+    var opt = q.options.filter(function (o) { return o.v === v; })[0];
+    if (!opt) return;
+    var cur = sel(state.ans, state.cur);
+    var next;
+    if (q.kind === 'single') next = [v];
+    else if (cur.indexOf(v) !== -1) next = cur.filter(function (x) { return x !== v; });
+    else if (opt.excl) next = [v];
+    else {
+      var excl = q.options.filter(function (o) { return o.excl; }).map(function (o) { return o.v; });
+      next = cur.filter(function (x) { return excl.indexOf(x) === -1; }).concat([v]);
+    }
+    setAns(state.cur, { sel: next });
+    render();
+    if (opt.other && next.indexOf(v) !== -1) {
+      var inp = document.getElementById('otro-' + state.cur);
+      if (inp) try { inp.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) {}
+    }
+  }
+
+  var sendTimer = null;
+  function submit() {
+    if (state.send === 'sending' || state.send === 'done') return;
+    state.send = 'sending';
+    render();
+    var payload = buildPayload(state.ans);
+    var finished = false;
+    function ok() { finished = true; clearTimeout(sendTimer); state.send = 'done'; go('thanks'); }
+    function fail() { if (finished) return; finished = true; clearTimeout(sendTimer); state.send = 'error'; render(); }
+    if (!/^https:\/\/script\.google\.com\/.+\/exec$/.test(ENDPOINT) && !window.__endpointPrueba) {
+      try { console.warn('Falta pegar la URL de la aplicación web en ENDPOINT.'); } catch (e) {}
+      setTimeout(fail, 400); return;
+    }
+    var url = window.__endpointPrueba || ENDPOINT;
+    var ctrl = null;
+    try { ctrl = new AbortController(); } catch (e) {}
+    sendTimer = setTimeout(function () { if (ctrl) try { ctrl.abort(); } catch (e) {} fail(); }, 30000);
+    // Petición "simple" (texto plano, sin encabezados extra): Apps Script la acepta sin
+    // permisos especiales del navegador y la respuesta sí se puede leer, así que
+    // solo se confirma el guardado cuando la hoja responde {"ok": true}.
+    var opts = { method: 'POST', body: JSON.stringify(payload), redirect: 'follow', cache: 'no-store', credentials: 'omit' };
+    if (ctrl) opts.signal = ctrl.signal;
+    fetch(url, opts)
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (res) {
+        if (res && res.ok === true) { if (state.send !== 'done') ok(); }
+        else fail();
+      })
+      .catch(function () { fail(); });
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-act]');
+    if (!b || b.disabled) return;
+    var act = b.getAttribute('data-act');
+    var p = path(state.ans);
+    var idx = p.indexOf(state.cur);
+    if (act === 'start') { if (!state.id) state.id = newId(); go('role'); }
+    else if (act === 'pick') pick(b.getAttribute('data-v'));
+    else if (act === 'next') { if (idx < p.length - 1) go(p[idx + 1]); }
+    else if (act === 'back') { if (state.send === 'sending' || state.send === 'done') return; if (state.send === 'error') state.send = 'idle'; if (idx > 0) go(p[idx - 1]); }
+    else if (act === 'skip') { setAns(state.cur, { text: '' }); go(p[idx + 1]); }
+    else if (act === 'submit') submit();
+  });
+
+  document.addEventListener('input', function (e) {
+    var k = e.target.getAttribute && e.target.getAttribute('data-input');
+    if (k === 'text') setAns(state.cur, { text: e.target.value });
+    if (k === 'other') setAns(state.cur, { other: e.target.value });
+  });
+
+  document.addEventListener('focusin', function (e) {
+    if (e.target.matches && e.target.matches('textarea, input')) {
+      setTimeout(function () { try { e.target.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (x) {} }, 300);
+    }
+  });
+
+  // Para pruebas automáticas.
+  window.__encuesta = { Q: Q, path: path, buildPayload: buildPayload, state: state };
+
+  function start() {
+    render();
+    try {
+      if (/[?&]prueba=1(&|$)/.test(location.search)) { state.prueba = true; render(); }
+    } catch (e) {}
+  }
+  start();
+})();
+</script>
+</body>
+</html>
